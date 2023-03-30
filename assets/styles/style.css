@@ -295,6 +295,11 @@ input[type="checkbox"]:checked:after {
   align-items: center;
   justify-content: center;
   padding: 0.875rem;
+  transition: 0.5s ease-in-out;
+}
+
+.todolist-icon-add:hover {
+  rotate: 3.1416rad;
 }
 
 .todolist-container-middle {
@@ -502,6 +507,7 @@ input[type="checkbox"]:checked:after {
   border-radius: 50%;
   font-size: medium;
   pointer-events: auto;
+  transition: all 0.3s ease;
 }
 
 .todolist-btn-prioritized,
