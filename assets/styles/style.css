@@ -53,7 +53,62 @@
   );
 }
 
+/* Animation keys */
+@keyframes wave-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(14deg);
+  }
+  20% {
+    transform: rotate(-8deg);
+  }
+  30% {
+    transform: rotate(14deg);
+  }
+  40% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+  60% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes popup-appear {
+  from {
+    transform: translate(-50%, -60%) scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes popup-disappear {
+  from {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(-50%, -60%) scale(0.8);
+    opacity: 0;
+  }
+}
+
 /* Some global tag I wanna edit style / */
+.swal-title,
+.swal-text {
+  font-family: Nunito, sans-serif;
+}
+
 input[type="checkbox"] {
   width: 1.2rem;
   height: 1.2rem;
@@ -141,6 +196,15 @@ input[type="checkbox"]:checked:after {
   color: var(--text-white-color);
   font-size: 3rem;
   width: 100%;
+}
+
+.wave {
+  animation-name: wave-animation;
+  animation-duration: 2.5s;
+  animation-iteration-count: infinite;
+  transform-origin: 70% 70%;
+  display: inline-block;
+  font-size: 3rem;
 }
 
 .todolist-description {
@@ -546,28 +610,6 @@ input[type="checkbox"]:checked:after {
   animation: popup-appear 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
 }
 
-@keyframes popup-appear {
-  from {
-    transform: translate(-50%, -60%) scale(0.8);
-    opacity: 0;
-  }
-  to {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
-}
-
-@keyframes popup-disappear {
-  from {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
-  to {
-    transform: translate(-50%, -60%) scale(0.8);
-    opacity: 0;
-  }
-}
-
 .edit-popup.unactive {
   animation: popup-disappear 0.3s cubic-bezier(0.075, 0.82, 0.165, 1) forwards;
 }
@@ -680,6 +722,10 @@ input[type="checkbox"]:checked:after {
     font-size: 2.5rem;
   }
 
+  .todolist-title > span {
+    font-size: 2.5rem;
+  }
+
   .todolist-description {
     font-size: 1rem;
   }
@@ -709,6 +755,10 @@ input[type="checkbox"]:checked:after {
     font-size: 2.2rem;
   }
 
+  .todolist-title > span {
+    font-size: 2.2rem;
+  }
+
   .todolist-description {
     font-size: 1rem;
   }
@@ -733,6 +783,10 @@ input[type="checkbox"]:checked:after {
   }
 
   .todolist-title {
+    font-size: 2rem;
+  }
+
+  .todolist-title > span {
     font-size: 2rem;
   }
 

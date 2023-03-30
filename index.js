@@ -1,11 +1,29 @@
 // Get Elements
 var notyf = new Notyf({
-  duration: 100000,
+  duration: 1500,
   position: {
     x: "right",
     y: "bottom",
   },
   dismissible: true,
+
+  types: [
+    {
+      type: "warning",
+      background: "orange",
+      icon: {
+        className: "material-icons",
+        tagName: "i",
+        text: "warning",
+      },
+    },
+    {
+      type: "error",
+      background: "indianred",
+      duration: 2000,
+      dismissible: true,
+    },
+  ],
 });
 
 let date = document.querySelector("#today");
@@ -284,11 +302,11 @@ const createNewTask = (task, completed, priority) => {
     popup.style.display = "none";
     if (editInput.value !== "") {
       saveText.innerText = editInput.value.trim();
-      swal("Thành công, dữ liệu của bạn đã thay đổi", {
+      swal("Success, your data has changed!", {
         icon: "success",
       });
     } else {
-      swal("Bạn chưa thay đổi dữ liệu nào", {
+      swal("You have not changed any data", {
         icon: "info",
       });
     }
@@ -471,14 +489,14 @@ const handleDeleteAll = () => {
   swal("Success, your data has been updated!", {
     icon: "success",
   });
-  setTimeout(() => {
-    location.reload();
-  }, 2000);
+  // setTimeout(() => {
+  //   location.reload();
+  // }, 2000);
 };
 
 deleteAll.addEventListener("click", () => {
   swal({
-    title: "Are you sure want to delete all of your tasks",
+    title: "Are you sure want to delete all of your tasks?",
     text: "When confirmed, you will not be able to restore the current data!",
     icon: "warning",
     buttons: ["Cancel", "Confirm"],
@@ -487,7 +505,9 @@ deleteAll.addEventListener("click", () => {
     if (value) {
       handleDeleteAll();
     } else {
-      swal("Your data hasn't been deleted yet!");
+      swal("You have not changed any data", {
+        icon: "info",
+      });
     }
     displayTask();
   });
