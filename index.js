@@ -42,6 +42,7 @@ let draggedItemIndex;
 
 // Functions for dragging feature
 const handleDragStart = (e) => {
+  e.stopPropagation();
   // e.preventDefault();
   // e.dataTransfer.setData("text/plain", e.target.id);
   // const target = e.target.closest("li");
@@ -236,6 +237,10 @@ const createNewTask = (task, completed, priority) => {
     }
   });
 
+  deleteBtn.addEventListener("dragstart", (event) => {
+    event.stopPropagation();
+  });
+
   prioritizedBtn.addEventListener("click", () => {
     let check = listItem.classList.contains("pending-task-color");
     if (check) {
@@ -250,6 +255,10 @@ const createNewTask = (task, completed, priority) => {
     updateTasks();
   });
 
+  prioritizedBtn.addEventListener("dragstart", (event) => {
+    event.stopPropagation();
+  });
+
   editBtn.addEventListener("click", (event) => {
     const taskId = editBtn.closest("li").getAttribute("data-task-id");
     popup.dataset.taskId = taskId;
@@ -258,6 +267,10 @@ const createNewTask = (task, completed, priority) => {
     popup.style.display = "flex";
     // set the current task and input value
     editInput.value = listItem.querySelector("label").innerText;
+  });
+
+  editBtn.addEventListener("dragstart", (event) => {
+    event.stopPropagation();
   });
 
   closeBtn.addEventListener("click", (e) => {
