@@ -229,7 +229,7 @@ const createNewTask = (task, completed, priority) => {
     if (checkbox.checked) {
       doneTasksList.removeChild(listItem);
       updateTasks();
-      displayTask();
+      // displayTask();
     } else {
       pendingTasksList.removeChild(listItem);
       updateTasks();
@@ -366,6 +366,8 @@ const addTask = () => {
     (task) => task.completed
   ).length;
   taskInput.value = "";
+
+  displayTask();
 };
 
 // Display all of the tasks
@@ -405,9 +407,6 @@ const displayTask = () => {
 
   if (tasks) {
     // Hide the empty tasks
-    // console.log(pendingTasksList.getElementsByClassName("empty-container"));
-    // document.getElementById("empty-pending").remove();
-    // console.log(tasks.filter((task) => task.completed == true).length !== 0);
     if (tasks.filter((task) => task.completed === true).length !== 0)
       document.getElementById("empty-completed").style.display = "none";
     else document.getElementById("empty-completed").style.display = "flex";
