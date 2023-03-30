@@ -289,7 +289,7 @@ input[type="checkbox"]:checked:after {
   padding: 0.5rem;
 }
 
-/* Javascript adding classese */
+/* Javascript adding classes */
 .pending-list-tasks {
   list-style: none;
   width: 100%;
@@ -299,6 +299,21 @@ input[type="checkbox"]:checked:after {
   overflow-y: scroll;
   overflow-x: hidden;
   padding: 0.5rem;
+}
+
+.empty-container {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  align-items: center;
+}
+
+.empty-container img {
+  width: 30%;
+}
+
+.empty-container h5 {
+  font-weight: 500;
 }
 
 .pending-list-tasks::-webkit-scrollbar {

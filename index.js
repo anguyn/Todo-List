@@ -211,6 +211,7 @@ const createNewTask = (task, completed, priority) => {
       }
       doneTasksList.appendChild(listItem);
       updateTasks();
+      // displayTask();
     } else {
       doneTasksList.removeChild(listItem);
       listItem.classList.remove("done-task");
@@ -220,6 +221,7 @@ const createNewTask = (task, completed, priority) => {
       prioritizedBtn.classList.remove("hide");
       pendingTasksList.appendChild(listItem);
       updateTasks();
+      // displayTask();
     }
   });
 
@@ -323,6 +325,8 @@ const updateTasks = () => {
   dashboardListValue.innerText = dashboard.filter(
     (task) => task.completed
   ).length;
+
+  displayTask();
 };
 
 const dragItem = (firstIndex, secondIndex) => {
@@ -369,7 +373,49 @@ const displayTask = () => {
   const tasks = localStorage.getItem("tasks")
     ? JSON.parse(localStorage.getItem("tasks"))
     : [];
+
+  doneTasksList.innerHTML = "";
+  pendingTasksList.innerHTML = "";
+
+  // const emptyPendingContainer = document.createElement("div");
+  // const emptyCompletedContainer = document.createElement("div");
+  // emptyPendingContainer.classList.add("empty-container");
+  // emptyCompletedContainer.classList.add("empty-container");
+  // const emptyImg = document.createElement("img");
+  // emptyImg.src = "./assets/images/Empty.gif";
+  // const text1 = document.createElement("h5");
+  // const text2 = document.createElement("h5");
+  // text1.innerText = "There is no pending task available";
+  // text2.innerText = "There is no completed task available";
+
+  // emptyPendingContainer.appendChild(emptyImg);
+  // emptyPendingContainer.appendChild(text1);
+  // emptyPendingContainer.setAttribute("id", "empty-pending");
+
+  // emptyCompletedContainer.appendChild(emptyImg);
+  // emptyCompletedContainer.appendChild(text2);
+  // emptyCompletedContainer.setAttribute("id", "empty-completed");
+
+  // document
+  //   .querySelector(".pending-container")
+  //   .appendChild(emptyPendingContainer);
+  // document
+  //   .querySelector(".done-container")
+  //   .appendChild(emptyCompletedContainer);
+
   if (tasks) {
+    // Hide the empty tasks
+    // console.log(pendingTasksList.getElementsByClassName("empty-container"));
+    // document.getElementById("empty-pending").remove();
+    // console.log(tasks.filter((task) => task.completed == true).length !== 0);
+    if (tasks.filter((task) => task.completed === true).length !== 0)
+      document.getElementById("empty-completed").style.display = "none";
+    else document.getElementById("empty-completed").style.display = "flex";
+
+    if (tasks.filter((task) => task.completed === false).length !== 0)
+      document.getElementById("empty-pending").style.display = "none";
+    else document.getElementById("empty-pending").style.display = "flex";
+
     // Convert savedTasks to an array
     tasks.forEach((task) => {
       const listItemSaved = createNewTask(
@@ -385,7 +431,11 @@ const displayTask = () => {
         pendingTasksList.appendChild(listItemSaved);
       }
     });
+  } else {
+    document.getElementById("empty-pending").style.display = "flex";
+    document.getElementById("empty-completed").style.display = "flex";
   }
+
   const dashboard = localStorage.getItem("tasks")
     ? JSON.parse(localStorage.getItem("tasks"))
     : [];
