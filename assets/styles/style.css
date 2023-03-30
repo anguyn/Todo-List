@@ -309,7 +309,7 @@ input[type="checkbox"]:checked:after {
 }
 
 .empty-container img {
-  width: 30%;
+  width: 200px;
 }
 
 .empty-container h5 {
