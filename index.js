@@ -43,13 +43,6 @@ let draggedItemIndex;
 // Functions for dragging feature
 const handleDragStart = (e) => {
   e.stopPropagation();
-  // e.preventDefault();
-  // e.dataTransfer.setData("text/plain", e.target.id);
-  // const target = e.target.closest("li");
-  // if (!target) return;
-  // e.dataTransfer.setData("text/plain", "");
-  // e.dataTransfer.effectAllowed = "move";
-  // draggingTask = e.target;
   draggedItemIndex = parseInt(e.target.dataset.taskId);
   e.dataTransfer.setData("text/plain", "");
 };
@@ -61,12 +54,9 @@ const handleDragEnd = (e) => {
 
 const handleDragOver = (e) => {
   e.preventDefault();
-  // e.dataTransfer.dropEffect = "move";
-  // return false;
 };
 
 const handleDragEnter = (e) => {
-  // e.preventDefault();
   if (e.target.classList.contains("pending-task")) {
     e.target.classList.add("dragging-enter");
   }
@@ -79,34 +69,47 @@ const handleDragLeave = (e) => {
 };
 
 const handleDrop = (e) => {
-  // e.preventDefault();
   e.target.classList.remove("dragging-enter");
-
-  // const dropzone = e.currentTarget;
-  // const droppedTask = e.target;
-
-  // if (draggingTask !== droppedTask) {
-  //   dropzone.insertBefore(draggingTask, droppedTask.nextSibling);
-  // }
 
   const target = e.currentTarget;
   const listItems = Array.from(target.querySelectorAll("li"));
-  const dropIndex = parseInt(e.target.dataset.taskId);
+  const parent = e.target.closest(".pending-task");
+  if (!parent) return;
+  const dropIndex = parseInt(parent.dataset.taskId);
   const droppedItem = listItems[dropIndex];
   const draggedItem = listItems[draggedItemIndex];
-  // console.log(draggedItem);
-  // console.log(listItems[dropIndex]);
+
   listItems.splice(dropIndex, 1, draggedItem);
   listItems.splice(draggedItemIndex, 1, droppedItem);
-  // listItems.splice(dropIndex + 1, 1);
-  // listItems.splice(draggedItemIndex, 0, droppedItem);
-  // console.log(listItems);
+
   target.innerHTML = "";
   listItems.forEach((item, index) => {
     item.dataset.taskId = index;
     target.appendChild(item);
   });
+
   updateTasks();
+};
+
+// Stop propagation of task buttons
+const handleStopDragPropagations = (...items) => {
+  items.forEach((item) => {
+    item.addEventListener("dragstart", (event) => {
+      event.stopPropagation();
+    });
+
+    item.addEventListener("dragover", (event) => {
+      event.stopPropagation();
+    });
+
+    item.addEventListener("dragleave", (event) => {
+      event.stopPropagation();
+    });
+
+    item.addEventListener("dragenter", (event) => {
+      event.stopPropagation();
+    });
+  });
 };
 
 // Create a task element
@@ -143,16 +146,11 @@ const createNewTask = (task, completed, priority) => {
     '<span class="icon_edit"><i class="fa-sharp fa-solid fa-pen-to-square"></i></span>';
   editBtn.className = "todolist-btn-edit";
 
-  // editBtn.setAttribute(
-  //   "data-task-id",
-  //   pendingTasksList.querySelectorAll("li").length + 1
-  // );
-
   deleteBtn.innerHTML =
     '<span class="icon_edit"><i class="fa-sharp fa-solid fa-trash"></i></span>';
   deleteBtn.className = "todolist-btn-delete";
 
-  //add class elements
+  //Add class elements
   if (!completed) {
     label.classList = "pending-task-name";
     checkbox.classList = "pending-task-checkbox";
@@ -237,10 +235,6 @@ const createNewTask = (task, completed, priority) => {
     }
   });
 
-  deleteBtn.addEventListener("dragstart", (event) => {
-    event.stopPropagation();
-  });
-
   prioritizedBtn.addEventListener("click", () => {
     let check = listItem.classList.contains("pending-task-color");
     if (check) {
@@ -255,10 +249,6 @@ const createNewTask = (task, completed, priority) => {
     updateTasks();
   });
 
-  prioritizedBtn.addEventListener("dragstart", (event) => {
-    event.stopPropagation();
-  });
-
   editBtn.addEventListener("click", (event) => {
     const taskId = editBtn.closest("li").getAttribute("data-task-id");
     popup.dataset.taskId = taskId;
@@ -269,9 +259,7 @@ const createNewTask = (task, completed, priority) => {
     editInput.value = listItem.querySelector("label").innerText;
   });
 
-  editBtn.addEventListener("dragstart", (event) => {
-    event.stopPropagation();
-  });
+  // handleStopDragPropagations(checkbox, prioritizedBtn, editBtn, deleteBtn);
 
   closeBtn.addEventListener("click", (e) => {
     // hide the overlay and editing popup
